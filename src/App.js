@@ -14,7 +14,7 @@ function generateDeck() {
     }
     deck.push(card)
     shuffle(deck)
-    console.log(deck)
+    // console.log(deck)
   }
   return deck
 }
@@ -34,22 +34,34 @@ class App extends React.Component {
     this.state = {
       deck: generateDeck(),
       pickedCards: [],
-      // deck: generateDeck()
     }
   
   }
 
   pickCard(cardIndex) {
-    if(this.state.deck[cardIndex] === this.state.deck.isFlipped) {
+    if(this.state.deck[cardIndex].isFlipped) {
       return
     }
     let cardToFlip = {...this.state.deck[cardIndex]}
+  
+    cardToFlip.isFlipped = true
+    let newPickedCards = this.state.pickedCards.concat(cardIndex)
+    let newDeck = this.state.deck.map( (card,index) => {
+      if(cardIndex === index) {
+        return cardToFlip
+      }
+      return card
+    });
+    this.setState( {
+      deck: newDeck,
+      pickedCards: newPickedCards
+    })
   }
 
   render(){
    const cardsJSX = this.state.deck.map( (card,index) => {
       return (
-        <MemoryCard key={index} symbol={card.symbol} isFlipped={card.isFlipped} />
+        <MemoryCard key={index} symbol={card.symbol} isFlipped={card.isFlipped} pickCard={this.pickCard.bind(this, index)}/>
       )   
    })
 

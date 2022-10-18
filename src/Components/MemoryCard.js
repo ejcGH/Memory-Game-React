@@ -24,7 +24,7 @@ class MemoryCard extends React.Component {
              memoryCardInnerClass += " flipped"
         }
     return (
-        <div className="MemoryCard" onClick={ () => this.clickHandler()}>
+        <div className="MemoryCard" onClick={ () => this.props.pickCard}>
             <div className={memoryCardInnerClass}>
                  <div className="MemoryCardBack">
                     <img src="dc.png"/>
