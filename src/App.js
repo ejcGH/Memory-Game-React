@@ -7,7 +7,7 @@ function generateDeck() {
   const symbols = ['∆','ß','£','§','•','$','+','ø'];
   let deck = [];
   for (let i = 0; i < 16; i++) {
-    const card = {
+    let card = {
       isFlipped: false,
       //means i modulus 8
       symbol: symbols[i % 8]
@@ -43,19 +43,55 @@ class App extends React.Component {
       return
     }
     let cardToFlip = {...this.state.deck[cardIndex]}
-  
     cardToFlip.isFlipped = true
-    let newPickedCards = this.state.pickedCards.concat(cardIndex)
+    let newPickedCards = this.state.pickedCards.concat(cardToFlip)
     let newDeck = this.state.deck.map( (card,index) => {
       if(cardIndex === index) {
         return cardToFlip
       }
       return card
     });
-    this.setState( {
+    
+    if(newPickedCards.length === 2) {
+      console.log(newPickedCards)
+      let card1Index = newPickedCards[0]
+      let card2Index = newPickedCards[1]
+      console.log(card1Index)
+      console.log(card2Index)
+      newPickedCards = []
+      if (card1Index.symbol !== card2Index.symbol) {
+        
+        setTimeout(this.unflipCards.bind(this, card1Index, card2Index), 1000)
+      }
+      
+    } 
+    this.setState({
       deck: newDeck,
       pickedCards: newPickedCards
     })
+  }
+
+  unflipCards(card1Index, card2Index) {
+    console.log(card1Index)
+    console.log(card2Index)
+    console.log(this.state.deck)
+    let card1 = this.state.deck.find(card => card.symbol === card1Index.symbol)
+    let card2 = this.state.deck.find(card => card.symbol === card2Index.symbol)
+    console.log(card1)
+    console.log(card2)
+    card1.isFlipped = false
+    card2.isFlipped = false
+    let newDeck = this.state.deck.map( (card, index) => {
+      if(index === 0) {
+        return card1
+      } else if (index === 1) {
+        return card2
+      } else {
+        return card
+      }
+      })
+      console.log(newDeck)
+    this.setState({deck: newDeck})
   }
 
   render(){
