@@ -75,8 +75,8 @@ class App extends React.Component {
     console.log(card1Index)
     console.log(card2Index)
     console.log(this.state.deck)
-    let card1 = this.state.deck.find(card => card.symbol === card1Index.symbol)
-    let card2 = this.state.deck.find(card => card.symbol === card2Index.symbol)
+    let card1 = this.state.deck.find(card => card.symbol === card1Index.symbol && card.isFlipped === card1Index.isFlipped)
+    let card2 = this.state.deck.find(card => card.symbol === card2Index.symbol && card.isFlipped === card2Index.isFlipped)
     console.log(card1)
     console.log(card2)
     card1.isFlipped = false
